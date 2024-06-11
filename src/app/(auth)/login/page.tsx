@@ -8,6 +8,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo";
 
 const page = () => {
   const [loading, setLoading] = useState(false);
@@ -72,12 +73,15 @@ const page = () => {
   });
 
   return (
-    <div className="p-20">
+    <div className="p-10 xl:p-20 w-full">
       <Toaster />
-      <h1 className="text-3xl text-center">Sign Up</h1>
-      <div>
+      <div className="flex justify-center">
+        <Logo />
+      </div>
+      <h1 className="text-3xl text-center">Log In</h1>
+      <div className="w-full">
         <form
-          className="mt-10 flex flex-col items-center gap-8"
+          className="mt-10 flex flex-col items-center gap-8 w-full"
           onSubmit={formik.handleSubmit}
         >
           <div className="flex flex-col">
@@ -114,7 +118,7 @@ const page = () => {
           </div>
           <button
             type="submit"
-            className="bg-[#3497F9] p-3 w-4/6 text-white rounded-xl"
+            className="bg-[#3497F9] p-3 w-full md:w-[50%] text-white rounded-xl"
           >
             {loading ? (
               <div className="animate-spin flex justify-center">
@@ -126,7 +130,7 @@ const page = () => {
           </button>
         </form>
       </div>
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-5 w-full">
         <p>
           Don't have an account?{" "}
           <a href="/signup" className="text-[#3497F9]">
