@@ -19,8 +19,7 @@ const page = async () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const res = fetchData("/api/appointments");
-    console.log(res)
+    
   }, []);
   const data = await getData();
 

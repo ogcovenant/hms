@@ -6,6 +6,7 @@ import { Appointment } from "@/components/Dashtab"
 import { appointments } from "@/components/Dashtab"
 import { Button } from "@/components/ui/button"
 import { Add } from "iconsax-react"
+import { useState, useEffect } from "react"
 
 
 async function getData(): Promise<Appointment[]> {
@@ -14,7 +15,17 @@ async function getData(): Promise<Appointment[]> {
 
 const page = async() => {
 
-  const data = await getData()
+  
+  const [data, setData] = useState<Appointment[]>([])
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const data = await getData()
+      setData(data)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <div className="p-10 overflow-auto">

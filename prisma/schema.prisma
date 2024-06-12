@@ -18,24 +18,15 @@ model User {
   email        String        @unique
   password     String
   userCategory String
-  appointments Appointment[]
+  doctors      Doctor[]
 }
 
 model Doctor {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  password     String
-  firstName    String
-  lastName     String
-  phoneNo      String
-}
-
-model Appointment {
   id          String @id @default(uuid())
-  time        String
-  date        String
-  patientName String
-  doctor      String
+  email       String @unique
+  firstName   String
+  lastName    String
+  phoneNumber String
   userId      String
   user        User   @relation(fields: [userId], references: [id])
 }

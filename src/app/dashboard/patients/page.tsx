@@ -6,15 +6,25 @@ import { Appointment } from "@/components/Dashtab"
 import { appointments } from "@/components/Dashtab"
 import { Button } from "@/components/ui/button"
 import { Add } from "iconsax-react"
+import { useEffect, useState } from "react"
 
 
 async function getData(): Promise<Appointment[]> {
   return appointments
 }
 
-const page = async() => {
+const page = () => {
 
-  const data = await getData()
+  const [data, setData] = useState<Appointment[]>([])
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const data = await getData()
+      setData(data)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <div className="p-10 overflow-auto">
