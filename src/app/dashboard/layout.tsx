@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React, { useEffect } from "react";
 import Sidebar from "@/components/Sidebar"
@@ -12,7 +12,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar />
         </SideProvider>
       </div>
-      <div className="w-[80%] bg-[#F1F8FF] h-fit">{children}</div>
+      <div className="w-[80%] bg-[#F1F8FF] h-screen">{children}</div>
     </div>
   );
 };

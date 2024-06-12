@@ -21,6 +21,15 @@ model User {
   appointments Appointment[]
 }
 
+model Doctor {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  firstName    String
+  lastName     String
+  phoneNo      String
+}
+
 model Appointment {
   id          String @id @default(uuid())
   time        String
