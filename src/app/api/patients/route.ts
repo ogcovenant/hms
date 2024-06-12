@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({}, { status: STATUS.unauthorized });
     }
 
-    const doctor = {
+    const patient = {
       id: uuid(),
       firstName: firstName,
       lastName: lastName,
@@ -34,20 +34,20 @@ export async function POST(req: NextRequest) {
       userId: user.id,
     };
 
-    const doctorUser = {
-      id: doctor.id,
-      email: doctor.email,
-      password: await bcrypt.hash(String(doctor.lastName).toLowerCase(), 12),
-      userCategory: "doctor",
+    const patientUser = {
+      id: patient.id,
+      email: patient.email,
+      password: await bcrypt.hash(String(patient.lastName).toLowerCase(), 12),
+      userCategory: "patient",
     };
 
-    const existingDoctor = await db.doctor.findFirst({
+    const existingPatient = await db.patient.findFirst({
       where: {
         OR: [{ email: email }, { phoneNumber: phoneNumber }],
       },
     });
 
-    if (existingDoctor) {
+    if (existingPatient) {
       return NextResponse.json(
         { error: "Email already exists" },
         { status: STATUS.conflict }
@@ -55,16 +55,17 @@ export async function POST(req: NextRequest) {
     }
 
     await db.$transaction([
-      db.doctor.create({
-        data: doctor,
+      db.patient.create({
+        data: patient,
       }),
       db.user.create({
-        data: doctorUser,
+        data: patientUser,
       }),
     ]);
 
     return NextResponse.json({}, { status: STATUS.created });
   } catch (err) {
+    console.log(err);
     return NextResponse.json({}, { status: STATUS.serverError });
   }
 }
@@ -86,23 +87,24 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({}, { status: STATUS.unauthorized });
     }
 
-    const doctors = await db.doctor.findMany({
+    const patients = await db.patient.findMany({
       where: {
         userId: user.id,
       },
     });
 
     return NextResponse.json(
-      { msg: "Doctors fetched Successfully", doctors: doctors },
+      { msg: "Patients fetched Successfully", patients: patients },
       { status: STATUS.ok }
     );
   } catch (err) {
+    console.log(err)
     return NextResponse.json({}, { status: STATUS.serverError });
   }
 }
 
 export async function DELETE(req: NextRequest) {
-  const { id: doctorID } = await req.json();
+  const { id: patientID } = await req.json();
 
   let user;
   try {
@@ -120,20 +122,20 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Check if doctor exists
-    const doctor = await db.doctor.findUnique({
-      where: { id: doctorID },
+    const patient = await db.patient.findUnique({
+      where: { id: patientID },
     });
 
-    if (!doctor) {
+    if (!patient) {
       return NextResponse.json(
-        { error: "Doctor not found" },
+        { error: "Patient not found" },
         { status: STATUS.notFound }
       );
     }
 
     // Check if user exists
     const userRecord = await db.user.findUnique({
-      where: { id: doctorID },
+      where: { id: patientID },
     });
 
     if (!userRecord) {
@@ -144,16 +146,16 @@ export async function DELETE(req: NextRequest) {
     }
 
     await db.$transaction([
-      db.doctor.delete({
-        where: { id: doctorID },
+      db.patient.delete({
+        where: { id: patientID },
       }),
       db.user.delete({
-        where: { id: doctorID },
+        where: { id: patientID },
       }),
     ]);
 
     return NextResponse.json(
-      { msg: "Doctor Successfully Removed" },
+      { msg: "Patient Successfully Removed" },
       { status: STATUS.ok }
     );
   } catch (err) {

@@ -1,7 +1,7 @@
 "use client";
 
 import DocTab from "@/components/Doctab";
-import { columns } from "@/components/Doctab";
+import { DocColumns } from "@/components/Doctab";
 import { Doctor } from "@/components/Doctab";
 import { Button } from "@/components/ui/button";
 import { Add } from "iconsax-react";
@@ -109,12 +109,12 @@ const Page = () => {
       </div>
       <div className="bg-white mt-3 p-5 rounded-md">
         <div>
-          <DocTab columns={columns} data={data} />
+          <DocTab columns={DocColumns} data={data} />
         </div>
       </div>
       {menuOpen && (
         <div className="absolute top-0 left-0 bg-[#00000060] w-full h-screen flex justify-center items-center">
-          <div className="bg-white w-1/2 p-4 rounded-md">
+          <div className="bg-white w-[35%] p-4 rounded-md">
             <div className="text-xl flex items-center justify-between px-6">
               <h1>Create Doctor</h1>
               <div className="cursor-pointer" onClick={() => handleMenuOpen()}>

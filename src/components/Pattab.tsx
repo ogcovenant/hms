@@ -36,8 +36,7 @@ import copy from "@/utils/copyText";
 import toast, { Toaster as T } from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 
-
-export type Doctor = {
+export type Patient = {
   id: string;
   firstName: string;
   lastName: string;
@@ -45,7 +44,7 @@ export type Doctor = {
   phoneNumber: string;
 };
 
-export const DocColumns: ColumnDef<Doctor>[] = [
+export const PatColumns: ColumnDef<Patient>[] = [
   {
     accessorKey: "firstName",
     header: "First Name",
@@ -66,7 +65,7 @@ export const DocColumns: ColumnDef<Doctor>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const doctor = row.original;
+      const patient = row.original;
 
       return (
         <Dialog>
@@ -78,11 +77,16 @@ export const DocColumns: ColumnDef<Doctor>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DialogTrigger>
-                <DropdownMenuItem>View Doctor Details</DropdownMenuItem>
+                <DropdownMenuItem>View Patient Details</DropdownMenuItem>
               </DialogTrigger>
               <DropdownMenuItem>Message</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500" onClick={() => {deleteDoctor(doctor.id)}}>
-                Remove Doctor
+              <DropdownMenuItem
+                className="text-red-500"
+                onClick={() => {
+                  deletePatient(patient.id);
+                }}
+              >
+                Remove Patient
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -91,14 +95,14 @@ export const DocColumns: ColumnDef<Doctor>[] = [
               <DialogTitle className="font-medium">Doctor Details</DialogTitle>
             </DialogHeader>
             <h2 className="text-2xl mt-3">
-              {doctor.firstName} {doctor.lastName}
+              {patient.firstName} {patient.lastName}
             </h2>
             <p className="text-lg flex gap-3 items-center">
-              <span>{doctor.email}</span>
+              <span>{patient.email}</span>
               <span
                 className="cursor-pointer"
                 onClick={() => {
-                  copy(doctor.email);
+                  copy(patient.email);
                   toast.success("Copied!");
                 }}
               >
@@ -106,11 +110,11 @@ export const DocColumns: ColumnDef<Doctor>[] = [
               </span>
             </p>
             <p className="text-lg flex gap-3 items-center">
-              <span>{doctor.phoneNumber}</span>{" "}
+              <span>{patient.phoneNumber}</span>{" "}
               <span
                 className="cursor-pointer"
                 onClick={() => {
-                  copy(doctor.phoneNumber);
+                  copy(patient.phoneNumber);
                   toast.success("Copied!");
                 }}
               >
@@ -124,40 +128,39 @@ export const DocColumns: ColumnDef<Doctor>[] = [
   },
 ];
 
-const deleteDoctor = async( id: string ) => {
-  try{
-    const res = await axios.delete("/api/doctors", {
+const deletePatient = async (id: string) => {
+  try {
+    const res = await axios.delete("/api/patients", {
       data: { id },
-    })
+    });
 
-    if(res.status === 200){
-      toast.success("Doctor Removed Successfully")
-      window.location.reload()
+    if (res.status === 200) {
+      toast.success("Patient Removed Successfully");
+      window.location.reload();
     }
-  }catch(err){
-
-    const error = err as AxiosError
+  } catch (err) {
+    const error = err as AxiosError;
 
     if (error.response && error.response.status === 500) {
       toast.error("An unexpected error occured!");
     }
 
     if (error.response && error.response.status === 401) {
-      window.location.replace("/login")
+      window.location.replace("/login");
     }
 
     if (error.response && error.response.status === 404) {
-      toast.error("Doctor to delete does not exist!")
+      toast.error("Patient to delete does not exist!");
     }
   }
-}
+};
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-const DocTab = <TData, TValue>({
+const Pattab = <TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
@@ -241,4 +244,4 @@ const DocTab = <TData, TValue>({
   );
 };
 
-export default DocTab;
+export default Pattab;
