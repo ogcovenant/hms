@@ -1,3 +1,5 @@
+"use client"
+
 import React, { createContext, useContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -14,7 +16,10 @@ export const SideProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     switch (pathName) {
-      case "/dashboard/appointments":
+      case "/dashboard":
+        setValue("appointments")
+        break;
+      case "/dashboard/appointments" || "/dashboard":
         setValue("appointments")
         break;
       case "/dashboard/doctors":

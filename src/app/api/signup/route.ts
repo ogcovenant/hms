@@ -6,7 +6,7 @@ import db from "@/config/dbconfig";
 import STATUS from "@/config/statusConfig";
 
 export async function POST(req: NextRequest) {
-  const { email, password, userCategory } = await req.json();
+  const { email, password } = await req.json();
 
   try {
     const existingUser = await db.user.findUnique({
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     id: uuid(),
     email: email,
     password: await bcrypt.hash(String(password), 12),
-    userCategory: userCategory,
+    userCategory: "admin",
   };
 
   const jwtPayload = {

@@ -122,7 +122,7 @@ export const DocColumns: ColumnDef<Doctor>[] = [
       );
     },
   },
-];
+];  
 
 const deleteDoctor = async( id: string ) => {
   try{

@@ -1,9 +1,9 @@
 "use client"
 
-import Dashtab from "@/components/Dashtab"
-import { columns } from "@/components/Dashtab"
-import { Appointment } from "@/components/Dashtab"
-import { appointments } from "@/components/Dashtab"
+import Dashtab from "@/components/Apptab"
+import { columns } from "@/components/Apptab"
+import { Appointment } from "@/components/Apptab"
+import { appointments } from "@/components/Apptab"
 import { Button } from "@/components/ui/button"
 import { Add } from "iconsax-react"
 import { useState, useEffect } from "react"

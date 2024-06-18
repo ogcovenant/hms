@@ -37,7 +37,6 @@ const page = () => {
           {
             email: values.email,
             pasword: values.password,
-            userCategory: "admin",
           },
           {
             headers: {

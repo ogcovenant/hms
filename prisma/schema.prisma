@@ -14,30 +14,45 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
+  id           String        @id @default(uuid())
+  email        String        @unique
   password     String
   userCategory String
   doctors      Doctor[]
   patients     Patient[]
+  Appointment  Appointment[]
 }
 
 model Doctor {
-  id          String @id @default(uuid())
-  email       String @unique
-  firstName   String
-  lastName    String
-  phoneNumber String
-  userId      String
-  user        User   @relation(fields: [userId], references: [id])
+  id           String        @id @default(uuid())
+  email        String        @unique
+  firstName    String
+  lastName     String
+  phoneNumber  String
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  appointments Appointment[]
 }
 
 model Patient {
-  id          String @id @default(uuid())
-  email       String @unique
-  firstName   String
-  lastName    String
-  phoneNumber String
-  userId      String
-  user        User   @relation(fields: [userId], references: [id])
+  id           String        @id @default(uuid())
+  email        String        @unique
+  firstName    String
+  lastName     String
+  phoneNumber  String
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  appointments Appointment[]
+}
+
+model Appointment {
+  id        String  @id @default(uuid())
+  date      String
+  doctorID  String
+  status    String
+  doctor    Doctor  @relation(fields: [doctorID], references: [id])
+  patientID String
+  patient   Patient @relation(fields: [patientID], references: [id])
+  userID    String
+  user      User    @relation(fields: [userID], references: [id])
 }
